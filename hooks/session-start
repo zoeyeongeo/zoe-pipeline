@@ -71,7 +71,7 @@ esac
 
 ctx="<zoe-pipeline version=\"${installed}\">"$'\n'
 ctx+="이 프로젝트는 zoe-pipeline을 쓴다. 아래 규칙은 이 세션의 모든 작업에 적용된다."$'\n'
-ctx+="규칙을 근거로 지적·판단할 때는 규칙 ID(W-/C-/A-/G-)와 규칙에 적힌 심각도를 그대로 쓴다."$'\n\n'
+ctx+="규칙을 근거로 지적·판단할 때는 규칙 ID(W-/B-/C-/A-/G-)와 규칙에 적힌 심각도를 그대로 쓴다."$'\n\n'
 ctx+="## 프로젝트 설정 (.claude/pipeline.json)"$'\n'
 ctx+="- 기본 모드: ${mode_text}"$'\n'
 ctx+="- 커밋: ${commit_text}"$'\n'
@@ -81,7 +81,7 @@ if [ -n "$warnings" ]; then
   ctx+=$'\n'"## 경고"$'\n'"${warnings}"
 fi
 
-for name in common "${engine}-style" "${engine}-assets" commit; do
+for name in common bugs "${engine}-style" "${engine}-assets" commit; do
   if read_file "${PLUGIN_ROOT}/rules/${name}.md"; then
     ctx+=$'\n'"${REPLY}"$'\n'
   fi

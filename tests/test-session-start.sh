@@ -30,7 +30,7 @@ mkdir -p "$TMP/ok/.claude"
 printf '{\r\n  "pipeline": "%s",\r\n  "mode": "build",\r\n  "engine": "unity",\r\n  "commit": "on-request"\r\n}\r\n' "$VER" > "$TMP/ok/.claude/pipeline.json"
 out="$(run_hook "$TMP/ok")"
 ctx="$(printf '%s' "$out" | ctx_of)"; check "정상 설정: 유효한 JSON" $?
-for id in "W-001" "C-003" "A-003" "G-003"; do
+for id in "W-001" "B-001" "C-003" "C-021" "A-003" "G-003"; do
   [[ $ctx == *"### $id"* ]]; check "정상 설정: $id 주입" $?
 done
 [[ $ctx == *"build — "* ]]; check "정상 설정: build 모드 문구" $?
@@ -49,7 +49,7 @@ ctx="$(run_hook "$TMP/old" | ctx_of)"
 mkdir -p "$TMP/unreal/.claude"
 printf '{ "pipeline": "%s", "engine": "unreal", "commit": "never" }' "$VER" > "$TMP/unreal/.claude/pipeline.json"
 ctx="$(run_hook "$TMP/unreal" | ctx_of)"
-[[ $ctx == *"### W-001"* && $ctx == *"### G-001"* && $ctx != *"### C-003"* ]]; check "unreal: 공통 규칙만" $?
+[[ $ctx == *"### W-001"* && $ctx == *"### B-001"* && $ctx == *"### G-001"* && $ctx != *"### C-003"* ]]; check "unreal: 공통 규칙만" $?
 [[ $ctx == *"커밋 금지"* ]]; check "unreal: never 커밋 문구" $?
 
 # 5. 경로에 공백

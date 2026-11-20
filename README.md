@@ -48,7 +48,7 @@ Windows에서는 Git for Windows(bash)가 필요합니다. 없으면 hook이 조
 |---|---|
 | `.claude-plugin/` | 플러그인 매니페스트, 마켓플레이스 정의 |
 | `hooks/` | 세션 시작 시 규칙 주입. `run-hook.cmd`는 Windows·Unix 겸용 실행기 |
-| `rules/` | 1층 규칙. 작업(W) · 코드(C) · 에셋(A) · 커밋(G) |
+| `rules/` | 1층 규칙. 작업(W) · 버그 패턴(B) · 코드(C) · 에셋(A) · 커밋(G) |
 | `skills/` | 명령. 지금은 `init`(프로젝트 적용)만 |
 | `templates/` | 기능 기록(spec · design · review), 기본값 표, `pipeline.json`, 새 프로젝트용 CLAUDE.md 뼈대, 규정 체크리스트 |
 | `guides/` | 디버깅 절차. FORMAL_VERIFY는 RPG에서 옮겨올 예정 |

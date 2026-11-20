@@ -1,5 +1,7 @@
 # CHANGELOG
 
+> `/ingest` 보고서(intake)는 저장소에 두지 않는다. 결론만 여기 남기고 보고서 원문은 비공개로 보관한다.
+
 ## 0.3.0 — 2026-11-18
 
 모험가 RPG `Assets/Code/CLAUDE.md`(코드 컨벤션·최적화·커밋·디버깅)와 `.claude/skills/cs-review` 검토 항목을 전역 규칙으로 이식. 규칙 31개 → 38개.

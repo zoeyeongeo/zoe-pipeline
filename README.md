@@ -53,7 +53,6 @@ Windows에서는 Git for Windows(bash)가 필요합니다. 없으면 hook이 조
 | `templates/` | 기능 기록(spec · design · review), 기본값 표, `pipeline.json`, 새 프로젝트용 CLAUDE.md 뼈대, 규정 체크리스트 |
 | `guides/` | 디버깅 절차. FORMAL_VERIFY는 RPG에서 옮겨올 예정 |
 | `metrics/` | 기준선 CSV 형식 |
-| `intake/` | `/ingest` 보고서 |
 | `tests/` | hook 테스트 |
 | `CAPABILITIES.md` | 파이프라인이 가진 기능 목록 (P-ID). `/ingest`의 대조 기준 |
 | `CHANGELOG.md` | 버전별 변경 내역 |

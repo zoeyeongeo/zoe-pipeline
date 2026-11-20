@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.2.1 — 2026-11-18
+
+- 수정: Windows에서 SessionStart hook이 실패해 규칙이 주입되지 않던 문제. `run-hook.cmd`의 한글 REM 주석 때문에 cmd가 LF 줄을 잘못 잘라 `exit /b 1`(또는 255)로 끝났다. 주석을 ASCII로 바꾸고, 테스트에 "run-hook.cmd ASCII 전용" 검사 추가
+- 발견: RPG 첫 적용 때 세션 안 Claude가 hook을 직접 실행해 진단
+- 0.1.0, 0.2.0을 Windows에서 쓰면 규칙이 주입되지 않는다 → `/zoe-pipeline:init`으로 0.2.1로 올릴 것
+
 ## 0.2.0 — 2026-11-18
 
 - `/zoe-pipeline:init` 추가 (P-007): 현재 프로젝트에 `.claude/pipeline.json`을 만든다. 인자로 mode·commit 지정, 이미 있으면 덮어쓰지 않고 버전 올리기만 제안

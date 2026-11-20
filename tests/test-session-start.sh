@@ -16,6 +16,10 @@ run_hook() { # 프로젝트 폴더 → stdout
 }
 ctx_of() { python3 -c 'import json,sys; print(json.load(sys.stdin)["hookSpecificOutput"]["additionalContext"])'; }
 
+# 0. run-hook.cmd는 ASCII만 (cmd가 LF 줄바꿈 + 멀티바이트 문자에서 줄을 잘못 자름, 0.2.1 버그)
+! LC_ALL=C grep -qP '[^\x00-\x7F]' "$HOOK"; check "run-hook.cmd ASCII 전용" $?
+! grep -q $'\r' "$HOOK"; check "run-hook.cmd CR 없음 (bash 쪽이 깨지지 않게)" $?
+
 # 1. pipeline.json 없음 → 출력 없음
 mkdir -p "$TMP/none"
 out="$(run_hook "$TMP/none")"

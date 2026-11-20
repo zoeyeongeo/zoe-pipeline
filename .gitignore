@@ -1,3 +1,7 @@
 
 # /ingest 보고서는 비공개 (Claude 프로젝트 문서에 보관)
 intake/
+
+# 프로젝트 기준선은 비공개 (실제 리뷰 내용). 형식은 baseline-template.csv
+metrics/baseline-*.csv
+!metrics/baseline-template.csv

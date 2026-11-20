@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+# zoe-pipeline SessionStart hook
+#
+# 프로젝트에 .claude/pipeline.json이 있을 때만 규칙(1층)과 프로젝트 설정을
+# 세션 맥락으로 주입한다. 없으면 아무것도 출력하지 않는다 → 플러그인을 전역 설치해도
+# 파이프라인을 쓰지 않는 프로젝트에는 영향이 없다.
+#
+# 외부 명령(cat, grep, dirname 등)을 쓰지 않는다. Windows Git Bash에서 fork가 느리고,
+# SessionStart 시점에 PATH가 비어 있을 수 있기 때문이다 (superpowers와 같은 이유).
+
+set -uo pipefail
+
+case "$0" in
+  */*|*\\*) SCRIPT_DIR="${0%[/\\]*}" ;;
+  *) SCRIPT_DIR="." ;;
+esac
+PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-${SCRIPT_DIR}/..}"
+PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$PWD}"
+CONFIG="${PROJECT_DIR}/.claude/pipeline.json"
+
+[ -r "$CONFIG" ] || exit 0
+
+# 파일 전체를 변수로 읽는다. read는 EOF에서 1을 돌려주므로 || true.
+read_file() {
+  REPLY=""
+  [ -r "$1" ] || return 1
+  IFS= read -r -d '' REPLY < "$1" || true
+  while [[ $REPLY == *$'\n' ]]; do REPLY="${REPLY%$'\n'}"; done
+  REPLY="${REPLY//$'\r'/}"
+  return 0
+}
+
+# 평평한 JSON에서 "키": "값" 하나를 꺼낸다. 중첩 객체는 다루지 않는다.
+json_str() {
+  local re="\"$1\"[[:space:]]*:[[:space:]]*\"([^\"]*)\""
+  if [[ $2 =~ $re ]]; then REPLY="${BASH_REMATCH[1]}"; else REPLY=""; fi
+}
+
+read_file "$CONFIG"; cfg="$REPLY"
+json_str mode "$cfg";     mode="${REPLY:-learn}"
+json_str engine "$cfg";   engine="${REPLY:-unity}"
+json_str commit "$cfg";   commit="${REPLY:-on-request}"
+json_str pipeline "$cfg"; pinned="$REPLY"
+
+read_file "${PLUGIN_ROOT}/.claude-plugin/plugin.json"
+json_str version "$REPLY"; installed="${REPLY:-unknown}"
+
+warnings=""
+case "$mode" in
+  learn|build) ;;
+  *) warnings+="- pipeline.json의 mode 값 \"${mode}\"을(를) 모름 → learn으로 취급한다. 사용자에게 알릴 것."$'\n'; mode="learn" ;;
+esac
+case "$commit" in
+  never|on-request) ;;
+  *) warnings+="- pipeline.json의 commit 값 \"${commit}\"을(를) 모름 → never로 취급한다."$'\n'; commit="never" ;;
+esac
+if [ -z "$pinned" ]; then
+  warnings+="- pipeline.json에 pipeline 버전이 없음. 설치된 플러그인 ${installed}을(를) 쓴다."$'\n'
+elif [ "$pinned" != "$installed" ]; then
+  warnings+="- 버전 불일치: 프로젝트는 ${pinned}에 고정, 설치된 플러그인은 ${installed}. 첫 응답에서 사용자에게 알리고, 바뀐 규칙은 CHANGELOG.md를 보라고 안내할 것."$'\n'
+fi
+
+case "$commit" in
+  never)      commit_text="커밋 금지. 사용자가 직접 커밋한다. 커밋 메시지 초안만 제시할 수 있다." ;;
+  on-request) commit_text="사용자가 요청할 때만 커밋한다. push는 별도 요청이 있을 때만." ;;
+esac
+case "$mode" in
+  learn) mode_text="learn — 게임플레이 코드는 사용자가 쓴다. [나] 단계에서는 무엇을·왜·어떤 API만 제시하고, 막히면 다음 한 단계만 힌트. 사용자가 \"코드 다 줘\"라고 할 때만 완성 코드. 리뷰 지적은 고치는 방향까지만." ;;
+  build) mode_text="build — 게임플레이 코드는 Claude가 쓴다. [AI] 단계 완료 후 \"설명해 보세요\" 질문 1~2개를 남긴다 (배울 게 없는 배선 작업은 생략)." ;;
+esac
+
+ctx="<zoe-pipeline version=\"${installed}\">"$'\n'
+ctx+="이 프로젝트는 zoe-pipeline을 쓴다. 아래 규칙은 이 세션의 모든 작업에 적용된다."$'\n'
+ctx+="규칙을 근거로 지적·판단할 때는 규칙 ID(W-/C-/A-/G-)와 규칙에 적힌 심각도를 그대로 쓴다."$'\n\n'
+ctx+="## 프로젝트 설정 (.claude/pipeline.json)"$'\n'
+ctx+="- 기본 모드: ${mode_text}"$'\n'
+ctx+="- 커밋: ${commit_text}"$'\n'
+ctx+="- 엔진: ${engine}"$'\n'
+ctx+="- 템플릿·가이드: ${PLUGIN_ROOT}/templates/, ${PLUGIN_ROOT}/guides/ (rules에서 templates/…라고 하면 이 경로)"$'\n'
+if [ -n "$warnings" ]; then
+  ctx+=$'\n'"## 경고"$'\n'"${warnings}"
+fi
+
+for name in common "${engine}-style" "${engine}-assets" commit; do
+  if read_file "${PLUGIN_ROOT}/rules/${name}.md"; then
+    ctx+=$'\n'"${REPLY}"$'\n'
+  fi
+done
+ctx+="</zoe-pipeline>"
+
+s="$ctx"
+s="${s//\\/\\\\}"
+s="${s//\"/\\\"}"
+s="${s//$'\n'/\\n}"
+s="${s//$'\t'/\\t}"
+
+# Windows Git Bash에서 하네스가 stdout을 먼저 닫으면 printf가 EPIPE를 낸다 → 무시
+trap '' PIPE
+printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "SessionStart",\n    "additionalContext": "%s"\n  }\n}\n' "$s" 2>/dev/null || true
+exit 0

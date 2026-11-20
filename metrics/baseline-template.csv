@@ -1,0 +1,2 @@
+date,feature,rule_id,severity,author,summary
+2026-10-13,제작 패널 Y13,UNMAPPED,MUST,사용자,bool 플래그가 꺼지지 않아 문구 반복

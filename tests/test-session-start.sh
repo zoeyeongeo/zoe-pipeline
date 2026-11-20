@@ -5,6 +5,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 HOOK="$ROOT/hooks/run-hook.cmd"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
+VER="$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["version"])' "$ROOT/.claude-plugin/plugin.json")"
 pass=0; fail=0
 
 check() { # 이름, 조건 결과(0=성공)
@@ -22,7 +23,7 @@ out="$(run_hook "$TMP/none")"
 
 # 2. 정상 설정 → 유효한 JSON, 규칙 4개 파일 모두 포함, 경고 없음
 mkdir -p "$TMP/ok/.claude"
-printf '{\r\n  "pipeline": "0.1.0",\r\n  "mode": "build",\r\n  "engine": "unity",\r\n  "commit": "on-request"\r\n}\r\n' > "$TMP/ok/.claude/pipeline.json"
+printf '{\r\n  "pipeline": "%s",\r\n  "mode": "build",\r\n  "engine": "unity",\r\n  "commit": "on-request"\r\n}\r\n' "$VER" > "$TMP/ok/.claude/pipeline.json"
 out="$(run_hook "$TMP/ok")"
 ctx="$(printf '%s' "$out" | ctx_of)"; check "정상 설정: 유효한 JSON" $?
 for id in "W-001" "C-003" "A-003" "G-003"; do
@@ -42,7 +43,7 @@ ctx="$(run_hook "$TMP/old" | ctx_of)"
 
 # 4. 모르는 엔진 → common/commit만, 엔진 규칙 없음
 mkdir -p "$TMP/unreal/.claude"
-printf '{ "pipeline": "0.1.0", "engine": "unreal", "commit": "never" }' > "$TMP/unreal/.claude/pipeline.json"
+printf '{ "pipeline": "%s", "engine": "unreal", "commit": "never" }' "$VER" > "$TMP/unreal/.claude/pipeline.json"
 ctx="$(run_hook "$TMP/unreal" | ctx_of)"
 [[ $ctx == *"### W-001"* && $ctx == *"### G-001"* && $ctx != *"### C-003"* ]]; check "unreal: 공통 규칙만" $?
 [[ $ctx == *"커밋 금지"* ]]; check "unreal: never 커밋 문구" $?

@@ -11,6 +11,7 @@
 | P-004 | 2 | 버전 불일치 경고 | hooks/session-start | ✅ | 설계 8-12 적용 규칙 |
 | P-005 | 2 | 프로젝트 규정 체크리스트 K1~K11 | templates/project-rules-checklist.md | 📝 실험 | intake 2026-11-18 |
 | P-006 | 2 | 새 프로젝트 CLAUDE.md 뼈대 | templates/CLAUDE.md | 📝 | 설계 8-8 |
+| P-007 | 2 | 프로젝트 적용 명령 (pipeline.json 생성·버전 갱신) | skills/init | ✅ | 사용자 요청 0.2.0 |
 | P-010 | 3 | Intake 명세 (요구사항 ID, 게임 감각, 가정 목록, 질문 3개 상한) | templates/spec.md | 📝 | Spec Kit, unity-ai-workflow |
 | P-011 | 3 | 질문 vs 가정 기본값 표 | templates/defaults.md | 📝 | 설계 8-3 |
 | P-012 | 3 | 설계 대안 + 구현 단계 담당자 + 수정 파일 목록 | templates/design.md | 📝 | 설계 6-3 |

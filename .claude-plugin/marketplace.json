@@ -8,7 +8,7 @@
     {
       "name": "zoe-pipeline",
       "description": "개인 게임 개발용 AI 품질 파이프라인",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "source": "./"
     }
   ]

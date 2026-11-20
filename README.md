@@ -2,8 +2,8 @@
 
 질문 수준·컨디션과 무관하게 일정 수준 이상의 결과가 나오게 하는 개인 게임 개발용 Claude Code 플러그인.
 
-> **현재 0.1.0 — 구축 1단계 초안**
-> 규칙 주입과 템플릿만 있습니다. 스킬(`/fix`, `/feature` 등)·검증 hook·분석기는 아직 없습니다 (`CAPABILITIES.md`의 ⏳ 항목).
+> **현재 0.2.0 — 구축 1단계 초안**
+> 규칙 주입, 템플릿, 프로젝트 적용 명령(`/zoe-pipeline:init`)이 있습니다. 개발 흐름 스킬(`/fix`, `/feature` 등)·검증 hook·분석기는 아직 없습니다 (`CAPABILITIES.md`의 ⏳ 항목).
 
 ## 설치
 
@@ -21,13 +21,23 @@ Windows에서는 Git for Windows(bash)가 필요합니다. 없으면 hook이 조
 
 ## 프로젝트에 적용
 
-1. `templates/pipeline.json`을 프로젝트의 `.claude/pipeline.json`으로 복사합니다.
-2. 값을 조정합니다.
-3. 새 세션을 열면 규칙이 주입됩니다. `pipeline.json`이 없는 프로젝트는 영향을 받지 않습니다.
+프로젝트 폴더에서 Claude Code를 열고 실행합니다.
+
+```
+/zoe-pipeline:init
+```
+
+`.claude/pipeline.json`이 만들어집니다. 그다음 `/clear`를 실행하거나 새 세션을 열면 규칙이 주입됩니다. `pipeline.json`이 없는 프로젝트는 영향을 받지 않습니다.
+
+기본값은 learn 모드, 커밋 금지입니다. 바꾸려면 인자를 붙여 다시 실행합니다. 이미 적용된 프로젝트에서 실행하면 플러그인 버전 올리기를 제안합니다.
+
+```
+/zoe-pipeline:init build on-request
+```
 
 | 키 | 값 | 뜻 |
 |---|---|---|
-| `pipeline` | `0.1.0` | 이 프로젝트가 맞춘 플러그인 버전. 설치본과 다르면 세션 시작 시 경고 |
+| `pipeline` | `0.2.0` | 이 프로젝트가 맞춘 플러그인 버전. 설치본과 다르면 세션 시작 시 경고 |
 | `mode` | `learn` / `build` | 게임플레이 코드를 누가 쓰는가의 기본값 |
 | `engine` | `unity` | `rules/<engine>-style.md`, `rules/<engine>-assets.md`를 주입 |
 | `commit` | `never` / `on-request` | 커밋 권한 |
@@ -39,6 +49,7 @@ Windows에서는 Git for Windows(bash)가 필요합니다. 없으면 hook이 조
 | `.claude-plugin/` | 플러그인 매니페스트, 마켓플레이스 정의 |
 | `hooks/` | 세션 시작 시 규칙 주입. `run-hook.cmd`는 Windows·Unix 겸용 실행기 |
 | `rules/` | 1층 규칙. 작업(W) · 코드(C) · 에셋(A) · 커밋(G) |
+| `skills/` | 명령. 지금은 `init`(프로젝트 적용)만 |
 | `templates/` | 기능 기록(spec · design · review), 기본값 표, `pipeline.json`, 새 프로젝트용 CLAUDE.md 뼈대, 규정 체크리스트 |
 | `guides/` | 디버깅 절차. FORMAL_VERIFY는 RPG에서 옮겨올 예정 |
 | `metrics/` | 기준선 CSV 형식 |

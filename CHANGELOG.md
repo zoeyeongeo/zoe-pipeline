@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 0.3.0 — 2026-11-18
+
+모험가 RPG `Assets/Code/CLAUDE.md`(코드 컨벤션·최적화·커밋·디버깅)와 `.claude/skills/cs-review` 검토 항목을 전역 규칙으로 이식. 규칙 31개 → 38개.
+
+- 채움: C-001 이름, C-002 서식, C-011 Assert·로그 메시지 형식 (`[RPG 이식]` 빈칸 해소)
+- 구체화: C-004(구독 함수 쌍), C-005(`[field: FormerlySerializedAs]`, 윗줄에 따로), C-006(summary 문구·위치), C-007(Unity 메시지 포함), C-008("-다" 한 문장), C-013(구체 타입 의존 시 이유)
+- 추가: C-014 주석 언어·필드 주석, C-015 로그 수준·디버깅 로그 금지, C-016 직렬화 노출 방식, C-017 이벤트 통지·폴링 금지, C-018 프레임 함수 조회 금지, C-019 매 프레임 할당 금지, C-020 프레임 함수 위치·애니메이터 해시
+- 커밋: G-001 type 목록을 RPG에 맞춤(`asset` 제거, 제목 대문자), G-002 `.meta` 동반·생성물 제외, G-003 never일 때 파일 묶음·`git add` 명령 안내
+- guides/debugging.md: RPG 절차(인스펙터 값 먼저 의심, learn 모드의 임시 로그 방식)와 유니티 함정 목록
+- RPG에만 해당해서 옮기지 않은 것: 네임스페이스 루트 `Code.*`, `ModuleOwner`·`IndexedAsset` 이름 예외, BT 그래프 타입 문자열, 에디터 백킹 필드 접근, 모듈·FSM 설계 관례
+- 기존 프로젝트: `/zoe-pipeline:init`으로 0.3.0으로 올리면 적용
+
 ## 0.2.1 — 2026-11-18
 
 - 수정: Windows에서 SessionStart hook이 실패해 규칙이 주입되지 않던 문제. `run-hook.cmd`의 한글 REM 주석 때문에 cmd가 LF 줄을 잘못 잘라 `exit /b 1`(또는 255)로 끝났다. 주석을 ASCII로 바꾸고, 테스트에 "run-hook.cmd ASCII 전용" 검사 추가

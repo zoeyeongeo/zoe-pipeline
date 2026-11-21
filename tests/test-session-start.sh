@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 HOOK="$ROOT/hooks/run-hook.cmd"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
-VER="$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["version"])' "$ROOT/.claude-plugin/plugin.json")"
+VER="$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1], encoding="utf-8"))["version"])' "$ROOT/.claude-plugin/plugin.json")"
 pass=0; fail=0
 
 check() { # 이름, 조건 결과(0=성공)
@@ -14,7 +14,8 @@ check() { # 이름, 조건 결과(0=성공)
 run_hook() { # 프로젝트 폴더 → stdout
   CLAUDE_PLUGIN_ROOT="$ROOT" CLAUDE_PROJECT_DIR="$1" bash "$HOOK" session-start
 }
-ctx_of() { python3 -c 'import json,sys; print(json.load(sys.stdin)["hookSpecificOutput"]["additionalContext"])'; }
+# Windows python은 print가 줄바꿈을 CRLF로 바꾸고 stdin을 cp949로 읽는다 → UTF-8 바이트로 직접 읽고 쓴다
+ctx_of() { python3 -c 'import json,sys; d=json.loads(sys.stdin.buffer.read().decode("utf-8")); sys.stdout.buffer.write(d["hookSpecificOutput"]["additionalContext"].encode("utf-8"))'; }
 
 # 0. run-hook.cmd는 ASCII만 (cmd가 LF 줄바꿈 + 멀티바이트 문자에서 줄을 잘못 자름, 0.2.1 버그)
 ! LC_ALL=C grep -qP '[^\x00-\x7F]' "$HOOK"; check "run-hook.cmd ASCII 전용" $?

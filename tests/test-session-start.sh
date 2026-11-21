@@ -44,6 +44,7 @@ mkdir -p "$TMP/old/.claude"
 printf '{ "pipeline": "0.0.9", "mode": "turbo", "engine": "unity" }' > "$TMP/old/.claude/pipeline.json"
 ctx="$(run_hook "$TMP/old" | ctx_of)"
 [[ $ctx == *"버전 불일치"*"0.0.9"* ]]; check "버전 불일치 경고" $?
+[[ $ctx == *"/zoe-pipeline:update"* ]]; check "버전 불일치: update 안내" $?
 [[ $ctx == *"turbo"* && $ctx == *"learn — "* ]]; check "모르는 mode → learn" $?
 
 # 4. 모르는 엔진 → common/commit만, 엔진 규칙 없음

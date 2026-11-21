@@ -57,7 +57,7 @@ esac
 if [ -z "$pinned" ]; then
   warnings+="- pipeline.json에 pipeline 버전이 없음. 설치된 플러그인 ${installed}을(를) 쓴다."$'\n'
 elif [ "$pinned" != "$installed" ]; then
-  warnings+="- 버전 불일치: 프로젝트는 ${pinned}에 고정, 설치된 플러그인은 ${installed}. 첫 응답에서 사용자에게 알리고, 바뀐 규칙은 CHANGELOG.md를 보라고 안내할 것."$'\n'
+  warnings+="- 버전 불일치: 프로젝트는 ${pinned}에 고정, 설치된 플러그인은 ${installed}. 첫 응답에서 사용자에게 알리고, 바뀐 규칙은 CHANGELOG.md에 있고 /zoe-pipeline:update로 올릴 수 있다고 안내할 것."$'\n'
 fi
 
 case "$commit" in

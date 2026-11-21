@@ -3,7 +3,7 @@
 질문 수준·컨디션과 무관하게 일정 수준 이상의 결과가 나오게 하는 개인 게임 개발용 Claude Code 플러그인.
 
 > **현재 0.5.0 — 구축 1단계 초안**
-> 규칙 주입, 템플릿, 프로젝트 적용 명령(`/zoe-pipeline:init`)이 있습니다. 개발 흐름 스킬(`/fix`, `/feature` 등)·검증 hook·분석기는 아직 없습니다 (`CAPABILITIES.md`의 ⏳ 항목).
+> 규칙 주입, 템플릿, 프로젝트 적용·갱신 명령(`/zoe-pipeline:init`, `/zoe-pipeline:update`)이 있습니다. 개발 흐름 스킬(`/fix`, `/feature` 등)·검증 hook·분석기는 아직 없습니다 (`CAPABILITIES.md`의 ⏳ 항목).
 
 ## 설치
 
@@ -29,10 +29,22 @@ Windows에서는 Git for Windows(bash)가 필요합니다. 없으면 hook이 조
 
 `.claude/pipeline.json`이 만들어집니다. 그다음 `/clear`를 실행하거나 새 세션을 열면 규칙이 주입됩니다. `pipeline.json`이 없는 프로젝트는 영향을 받지 않습니다.
 
-기본값은 learn 모드, 커밋 금지입니다. 바꾸려면 인자를 붙여 다시 실행합니다. 이미 적용된 프로젝트에서 실행하면 플러그인 버전 올리기를 제안합니다.
+기본값은 learn 모드, 커밋 금지입니다. 처음부터 다른 값으로 만들려면 인자를 붙입니다.
 
 ```
 /zoe-pipeline:init build on-request
+```
+
+## 갱신
+
+플러그인을 업데이트한 뒤 각 프로젝트에서 실행합니다. 바뀐 점(CHANGELOG 요약)을 보여 주고 승인하면 `pipeline` 버전을 올립니다. 인자를 주면 mode·commit도 바꿉니다.
+
+```
+/zoe-pipeline:update
+```
+
+```
+/zoe-pipeline:update build on-request
 ```
 
 | 키 | 값 | 뜻 |
@@ -49,7 +61,7 @@ Windows에서는 Git for Windows(bash)가 필요합니다. 없으면 hook이 조
 | `.claude-plugin/` | 플러그인 매니페스트, 마켓플레이스 정의 |
 | `hooks/` | 세션 시작 시 규칙 주입. `run-hook.cmd`는 Windows·Unix 겸용 실행기 |
 | `rules/` | 1층 규칙. 작업(W) · 버그 패턴(B) · 코드(C) · 에셋(A) · 커밋(G) |
-| `skills/` | 명령. 지금은 `init`(프로젝트 적용)만 |
+| `skills/` | 명령. `init`(처음 적용), `update`(버전 올리기·값 변경) |
 | `templates/` | 기능 기록(spec · design · review), 기본값 표, `pipeline.json`, 새 프로젝트용 CLAUDE.md 뼈대, 규정 체크리스트 |
 | `guides/` | 디버깅 절차. FORMAL_VERIFY는 RPG에서 옮겨올 예정 |
 | `metrics/` | 기준선 CSV 형식 |

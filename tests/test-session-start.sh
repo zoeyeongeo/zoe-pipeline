@@ -31,7 +31,7 @@ mkdir -p "$TMP/ok/.claude"
 printf '{\r\n  "pipeline": "%s",\r\n  "mode": "build",\r\n  "engine": "unity",\r\n  "commit": "on-request"\r\n}\r\n' "$VER" > "$TMP/ok/.claude/pipeline.json"
 out="$(run_hook "$TMP/ok")"
 ctx="$(printf '%s' "$out" | ctx_of)"; check "정상 설정: 유효한 JSON" $?
-for id in "W-001" "B-001" "C-003" "C-021" "A-003" "G-003"; do
+for id in "W-001" "W-012" "B-001" "C-003" "C-021" "A-003" "G-003"; do
   [[ $ctx == *"### $id"* ]]; check "정상 설정: $id 주입" $?
 done
 [[ $ctx == *"build — "* ]]; check "정상 설정: build 모드 문구" $?

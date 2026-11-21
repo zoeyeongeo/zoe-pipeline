@@ -18,7 +18,8 @@
 | P-013 | 3 | learn / build 모드 주입 | hooks/session-start | ✅ | 설계 7장 |
 | P-014 | 3 | /fix → /feature 승격 기준 E1~E5 | (설계 6-1) | ⏳ 3단계 | 설계 6-1 |
 | P-015 | 3 | /fix, /feature, /bootstrap, /ingest 스킬 | skills/ | ⏳ 3단계 | — |
-| P-020 | 4 | 독립 리뷰 에이전트 (심각도·규칙 ID·확인 필요) | agents/reviewer.md | ⏳ 3단계, 형식만 templates/review.md | superpowers, cs-review |
+| P-016 | 3 | 플레이 증거: R-ID별 확인 방법(측정·화면·사람) + 기준, 숫자 목표, 충돌 시 우선순위 | templates/spec.md, W-012 | 📝 | intake 2026-11-21 |
+| P-020 | 4 | 독립 리뷰 에이전트 (심각도·규칙 ID·확인 필요) | agents/reviewer.md | ⏳ 3단계, 형식만 templates/review.md | superpowers, cs-review. 조건: 작성 대화·추론을 넘기지 않고 diff·spec·design만 준다 (intake 2026-11-21) |
 | P-021 | 4 | 컴파일 hook (Unity CLI) | hooks/ | ⏳ 2단계 | 설계 8-4 |
 | P-022 | 4 | 커스텀 Roslyn 분석기 | analyzers/ | ⏳ 2단계 | 설계 8-4 |
 | P-023 | 4 | 범위 이탈 검사 | hooks/ | ⏳ 2단계 (지금은 W-006 문서) | intake 2026-11-18 |

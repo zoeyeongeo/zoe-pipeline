@@ -19,7 +19,10 @@
 | P-013 | 3 | learn / build 모드 주입 | hooks/session-start | ✅ | 설계 7장 |
 | P-014 | 3 | /fix → /feature 승격 기준 E1~E5 | (설계 6-1) | ⏳ 3단계 | 설계 6-1 |
 | P-015 | 3 | /fix, /feature, /bootstrap, /ingest 스킬 | skills/ | ⏳ 3단계 | — |
-| P-016 | 3 | 플레이 증거: R-ID별 확인 방법(측정·화면·사람) + 기준, 숫자 목표, 충돌 시 우선순위 | templates/spec.md, W-012 | 📝 | intake 2026-11-21 |
+| P-016 | 3 | 확인 증거: R-ID별 확인 방법(증명 — 코드 추적 → 예외로 형식 검증 · 시연 1회 · 측정은 예외) + 기준, 숫자 목표, 충돌 시 우선순위 | templates/spec.md, W-012 | 📝 | intake 2026-11-21, 회고 2026-11-24, intake 2026-11-24 |
+| P-017 | 3 | learn 모드 과제지: 결과로 확인되는 조건 · 맞물리는 지점만, 힌트 3단계(요청 시) 기록 | templates/assignment.md | 📝 | 회고 2026-11-24 (수행평가 형식) |
+| P-018 | 3 | learn 모드 같이 설계: AI는 문제·제약·영향 범위만, 사용자 안 먼저 → AI가 빈 곳·대안·위험 | templates/design.md, W-004 | 📝 | 회고 2026-11-24 |
+| P-019 | 3 | 쪽지시험: 기능 끝 객관식 3~5문항(이번 지적·함정·API 근거), 틀린 문항 기록 | templates/review.md | 📝 | 회고 2026-11-24 |
 | P-020 | 4 | 독립 리뷰 에이전트 (심각도·규칙 ID·확인 필요) | agents/reviewer.md | ⏳ 3단계, 형식만 templates/review.md | superpowers, cs-review. 조건: 작성 대화·추론을 넘기지 않고 diff·spec·design만 준다 (intake 2026-11-21) |
 | P-021 | 4 | 컴파일 hook (Unity CLI) | hooks/ | ⏳ 2단계 | 설계 8-4 |
 | P-022 | 4 | 커스텀 Roslyn 분석기 | analyzers/ | ⏳ 2단계 | 설계 8-4 |
@@ -27,3 +30,4 @@
 | P-030 | — | 지표: 기준선 CSV 형식 | metrics/ | 📝 | 설계 8-11 |
 | P-031 | — | 외부 자료 반영 보고서 (비공개) | 저장소 밖 — Claude 프로젝트 문서 `claude/intake/` | 📝 손으로 실행 | 설계 8-12 |
 | P-032 | — | 디버깅 절차 | guides/debugging.md | 📝 | 기존 두 프로젝트 |
+| P-033 | — | 형식 검증 정책 (언제 쓰고 언제 안 쓰나, 기존 확인 우선) | guides/FORMAL_VERIFY.md | 📝 | 기존 두 프로젝트, intake 2026-11-24 |

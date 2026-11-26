@@ -23,7 +23,7 @@
 | P-017 | 3 | learn 모드 과제지: 결과로 확인되는 조건 · 맞물리는 지점만, 힌트 3단계(요청 시) 기록 | templates/assignment.md | 📝 | 회고 2026-11-24 (수행평가 형식) |
 | P-018 | 3 | learn 모드 같이 설계: AI는 문제·제약·영향 범위만, 사용자 안 먼저 → AI가 빈 곳·대안·위험 | templates/design.md, W-004 | 📝 | 회고 2026-11-24 |
 | P-019 | 3 | 쪽지시험: 기능 끝 객관식 3~5문항(이번 지적·함정·API 근거), 틀린 문항 기록 | templates/review.md | 📝 | 회고 2026-11-24 |
-| P-020 | 4 | 독립 리뷰 에이전트 (심각도·규칙 ID·확인 필요) | agents/reviewer.md | ⏳ 3단계, 형식만 templates/review.md | superpowers, cs-review. 조건: 작성 대화·추론을 넘기지 않고 diff·spec·design만 준다 (intake 2026-11-21) |
+| P-020 | 4 | 독립 리뷰 에이전트 (심각도·규칙 ID·확인 필요) | agents/reviewer.md | ⏳ 3단계, 형식만 templates/review.md (주석 판정 5문항 · `yap` 꼬리표 포함) | superpowers, cs-review. 조건: 작성 대화·추론을 넘기지 않고 diff·spec·design만 준다 (intake 2026-11-21). 주석 판정 (intake 2026-11-25) |
 | P-021 | 4 | 컴파일 hook (Unity CLI) | hooks/ | ⏳ 2단계 | 설계 8-4 |
 | P-022 | 4 | 커스텀 Roslyn 분석기 | analyzers/ | ⏳ 2단계 | 설계 8-4 |
 | P-023 | 4 | 범위 이탈 검사 | hooks/ | ⏳ 2단계 (지금은 W-006 문서) | intake 2026-11-18 |

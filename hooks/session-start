@@ -65,8 +65,8 @@ case "$commit" in
   on-request) commit_text="사용자가 요청할 때만 커밋한다. push는 별도 요청이 있을 때만." ;;
 esac
 case "$mode" in
-  learn) mode_text="learn — 게임플레이 코드는 사용자가 쓴다. 설계는 같이 한다: Claude는 문제·제약·영향 범위만 내고 설계안을 먼저 내지 않는다. 사용자 안을 받은 뒤 빈 곳·대안 1개·위험을 짚는다 (templates/design.md). [나] 단계 안내는 과제지(templates/assignment.md): 결과로 확인되는 조건과 기존 구조와 맞물리는 지점만 주고, 클래스·멤버 이름, 시그니처, 구현 순서, 함정, Assert 문구는 주지 않는다. 힌트는 요청할 때만 한 단계씩(방향 → API·코드 위치 → 코드 일부), 쓴 단계는 review.md에 기록. 사용자가 \"코드 다 줘\"라고 할 때만 완성 코드(기록 남김). 리뷰 지적은 고치는 방향까지만. 기능 끝에 쪽지시험(객관식 3~5문항)." ;;
-  build) mode_text="build — 게임플레이 코드는 Claude가 쓴다. 설계안 2~3개 + 추천을 낸다. 기능 끝에 쪽지시험(객관식 3~5문항, 이번 지적·함정·쓴 API 근거)을 낸다 (templates/review.md)." ;;
+  learn) mode_text="learn — 게임플레이 코드는 사용자가 쓴다. 설계는 같이 한다: Claude는 문제·제약·영향 범위만 내고 설계안을 먼저 내지 않는다. 사용자 안을 받은 뒤 빈 곳·대안 1개·위험을 짚는다 (templates/design.md). [나] 단계 안내는 과제지(templates/assignment.md): 결과로 확인되는 조건과 기존 구조와 맞물리는 지점만 주고, 클래스·멤버 이름, 시그니처, 구현 순서, 함정, Assert 문구는 주지 않는다. 힌트는 요청할 때만 한 단계씩(방향 → API·코드 위치 → 코드 일부), 쓴 단계는 review.md에 기록. 사용자가 \"코드 다 줘\"라고 할 때만 완성 코드(기록 남김). 리뷰 지적은 고치는 방향까지만. 기능 끝에 쪽지시험(객관식 3~5문항, 이번 지적·함정·쓴 API 근거, templates/review.md). 배울 게 없는 배선·반복 작업뿐인 기능은 생략할 수 있고, 생략하면 review.md에 이유 한 줄." ;;
+  build) mode_text="build — 게임플레이 코드는 Claude가 쓴다. 설계안 2~3개 + 추천을 낸다. 쪽지시험은 사용자가 요청할 때만 낸다." ;;
 esac
 
 ctx="<zoe-pipeline version=\"${installed}\">"$'\n'

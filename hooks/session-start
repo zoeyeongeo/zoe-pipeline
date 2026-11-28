@@ -39,7 +39,7 @@ json_str() {
 read_file "$CONFIG"; cfg="$REPLY"
 json_str mode "$cfg";     mode="${REPLY:-learn}"
 json_str engine "$cfg";   engine="${REPLY:-unity}"
-json_str commit "$cfg";   commit="${REPLY:-on-request}"
+json_str commit "$cfg";   commit="${REPLY:-never}"
 json_str pipeline "$cfg"; pinned="$REPLY"
 
 read_file "${PLUGIN_ROOT}/.claude-plugin/plugin.json"
@@ -81,8 +81,22 @@ if [ -n "$warnings" ]; then
   ctx+=$'\n'"## 경고"$'\n'"${warnings}"
 fi
 
+# 규칙 파일의 `출처:` 줄(`- 출처:`, `> 출처:`)은 파일에는 남기고 주입할 때만 뺀다.
+# 규칙을 지키는 데 쓰이지 않는 근거 기록이라 매 세션 맥락만 차지한다.
+strip_source() {
+  local line out=""
+  while IFS= read -r line || [ -n "$line" ]; do
+    case "$line" in
+      "- 출처:"*|"> 출처:"*) continue ;;
+    esac
+    out+="${line}"$'\n'
+  done <<< "$1"
+  REPLY="${out%$'\n'}"
+}
+
 for name in common bugs "${engine}-style" "${engine}-assets" commit; do
   if read_file "${PLUGIN_ROOT}/rules/${name}.md"; then
+    strip_source "$REPLY"
     ctx+=$'\n'"${REPLY}"$'\n'
   fi
 done

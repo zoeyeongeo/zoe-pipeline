@@ -2,7 +2,7 @@
 
 질문 수준·컨디션과 무관하게 일정 수준 이상의 결과가 나오게 하는 개인 게임 개발용 Claude Code 플러그인.
 
-> **현재 0.6.1 — 구축 1단계 초안**
+> **현재 0.6.2 — 구축 1단계 초안**
 > 규칙 주입, 템플릿, 프로젝트 적용·갱신 명령(`/zoe-pipeline:init`, `/zoe-pipeline:update`)이 있습니다. 개발 흐름 스킬(`/fix`, `/feature` 등)·검증 hook·분석기는 아직 없습니다 (`CAPABILITIES.md`의 ⏳ 항목).
 
 ## 설치
@@ -49,7 +49,7 @@ Windows에서는 Git for Windows(bash)가 필요합니다. 없으면 hook이 조
 
 | 키 | 값 | 뜻 |
 |---|---|---|
-| `pipeline` | `0.6.1` | 이 프로젝트가 맞춘 플러그인 버전. 설치본과 다르면 세션 시작 시 경고 |
+| `pipeline` | `0.6.2` | 이 프로젝트가 맞춘 플러그인 버전. 설치본과 다르면 세션 시작 시 경고 |
 | `mode` | `learn` / `build` | 게임플레이 코드를 누가 쓰는가의 기본값 |
 | `engine` | `unity` | `rules/<engine>-style.md`, `rules/<engine>-assets.md`를 주입 |
 | `commit` | `never` / `on-request` | 커밋 권한 |
@@ -76,8 +76,10 @@ Windows에서는 Git for Windows(bash)가 필요합니다. 없으면 hook이 조
 - **심각도** — `MUST` · `SHOULD` · `NIT`. 리뷰어가 아니라 규칙이 정합니다
 - **규칙** — 지켜야 할 것
 - **이유** — 어기면 무엇이 깨지는가
-- **강제** — 문서 / 템플릿 / hook / 분석기. "문서"인 규칙 목록이 곧 분석기 로드맵
+- **강제** — 문서 / 템플릿 / hook / 분석기 중 지금 동작하는 것만. 앞으로 붙일 강제는 `CAPABILITIES.md`의 "예정 강제" 표
 - **예외** — 적용하지 않는 경우
+
+`출처:` 줄(근거 기록)은 파일에만 있고 세션에 주입할 때는 빠집니다.
 
 예시 — `rules/unity-style.md`
 
@@ -86,7 +88,7 @@ Windows에서는 Git for Windows(bash)가 필요합니다. 없으면 hook이 조
 - 심각도: MUST
 - 규칙: MonoBehaviour/ScriptableObject 파일에는 해당 클래스와 그 중첩 클래스만 둔다
 - 이유: 유니티는 파일명으로 스크립트를 연결한다
-- 강제: 문서 → (2단계) Analyzer ZOE003
+- 강제: 문서
 - 예외: 없음
 ```
 

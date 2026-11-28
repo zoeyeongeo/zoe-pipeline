@@ -39,6 +39,8 @@ done
 [[ $ctx == *"요청할 때만 커밋"* ]]; check "정상 설정: on-request 커밋 문구" $?
 [[ $ctx != *"## 경고"* ]]; check "정상 설정: 경고 없음" $?
 [[ $ctx != *$'\r'* ]]; check "정상 설정: CR 제거됨" $?
+[[ $ctx != *"출처:"* ]]; check "정상 설정: 주입 출력에 출처: 줄 없음" $?
+grep -q "^- 출처:" "$ROOT/rules/common.md"; check "출처: 줄은 규칙 파일에 남아 있음" $?
 
 # 3. 버전 불일치 + 모르는 mode → 경고, learn으로 대체
 mkdir -p "$TMP/old/.claude"
@@ -47,6 +49,9 @@ ctx="$(run_hook "$TMP/old" | ctx_of)"
 [[ $ctx == *"버전 불일치"*"0.0.9"* ]]; check "버전 불일치 경고" $?
 [[ $ctx == *"/zoe-pipeline:update"* ]]; check "버전 불일치: update 안내" $?
 [[ $ctx == *"turbo"* && $ctx == *"learn — "* ]]; check "모르는 mode → learn" $?
+[[ $ctx == *"커밋 금지"* ]]; check "commit 키 없음 → never" $?
+grep -q '"commit": "never"' "$ROOT/templates/pipeline.json"; check "템플릿 commit 기본값 never" $?
+grep -qF '| `commit` | `never`, `on-request` | `never` |' "$ROOT/skills/init/SKILL.md"; check "init commit 기본값 never" $?
 
 # 4. 모르는 엔진 → common/commit만, 엔진 규칙 없음
 mkdir -p "$TMP/unreal/.claude"
